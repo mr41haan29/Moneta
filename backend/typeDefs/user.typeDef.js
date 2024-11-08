@@ -11,7 +11,6 @@ const userTypeDef = `#graphql
 
 	#queries (GET) for users and what to expect in the response (after the :)
 	type Query{
-		users: [User!] #get all users
 		authUser: User #get authenticated user
 		user(userId: ID!): User #get a specific user by the userID
  	}
