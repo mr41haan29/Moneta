@@ -15,7 +15,7 @@ const transactionResolver = {
 
         return transactions;
       } catch (error) {
-        console.log("error in all transactions query", error);
+        console.error("error in all transactions query", error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -25,7 +25,7 @@ const transactionResolver = {
         const transaction = await Transaction.findById(transactionId);
         return transaction;
       } catch (error) {
-        console.log("error in transaction query", error);
+        console.error("error in transaction query", error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -57,7 +57,7 @@ const transactionResolver = {
 
         return newTransaction;
       } catch (error) {
-        console.log("error in createTransaction", error);
+        console.error("error in createTransaction", error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -75,7 +75,7 @@ const transactionResolver = {
 
         return updatedTransaction;
       } catch (error) {
-        console.log("error in updateTransaction", error);
+        console.error("error in updateTransaction", error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -91,7 +91,7 @@ const transactionResolver = {
 
         return deletedTransaction;
       } catch (error) {
-        console.log("error in deleteTransaction", error);
+        console.error("error in deleteTransaction", error);
         throw new Error(error.message || "Internal server error");
       }
     },

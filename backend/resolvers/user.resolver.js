@@ -10,7 +10,7 @@ const userResolver = {
         const user = await context.getUser();
         return user;
       } catch (error) {
-        console.log("error in authUser query", error);
+        console.error("error in authUser query", error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -21,7 +21,7 @@ const userResolver = {
         const user = await User.findById(userId);
         return user;
       } catch (error) {
-        console.log("error in user query", error);
+        console.error("error in user query", error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -63,7 +63,7 @@ const userResolver = {
         await context.login(newUser);
         return newUser;
       } catch (error) {
-        console.log("error in signup", error);
+        console.error("error in signup", error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -71,6 +71,10 @@ const userResolver = {
     login: async (_, { input }, context) => {
       try {
         const { username, password } = input;
+
+        if (!username || !password) {
+          throw new Error("Please fill in all the fields");
+        }
 
         const { user } = await context.authenticate("graphql-local", {
           username,
@@ -81,7 +85,7 @@ const userResolver = {
 
         return user;
       } catch (error) {
-        console.log("error in login", error);
+        console.error("error in login", error);
         throw new Error(error.message || "Internal server error");
       }
     },
@@ -89,14 +93,14 @@ const userResolver = {
     logout: async (_, __, context) => {
       try {
         await context.logout();
-        req.session.destroy((err) => {
+        context.req.session.destroy((err) => {
           if (err) throw err;
         });
 
-        res.clearCookie("connect.sid");
+        context.res.clearCookie("connect.sid");
         return { message: "Logged out successfully" };
       } catch (error) {
-        console.log("error in logout", error);
+        console.error("error in logout", error);
         throw new Error(error.message || "Internal server error");
       }
     },
