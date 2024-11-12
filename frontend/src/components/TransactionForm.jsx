@@ -4,7 +4,6 @@ import { useMutation } from "@apollo/client";
 import { CREATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
 
 const TransactionForm = () => {
-  //TODO: when relationships are added, change refetch query
   const [createTransaction, { loading, error }] = useMutation(
     CREATE_TRANSACTION,
     {

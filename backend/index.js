@@ -1,26 +1,25 @@
 import express from "express";
 import http from "http";
 import cors from "cors";
+import path from "path";
 import dotenv from "dotenv";
 import passport from "passport";
 import session from "express-session";
 import connectMongo from "connect-mongodb-session";
-
 import { ApolloServer } from "@apollo/server";
+import { buildContext } from "graphql-passport";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 
-import { buildContext } from "graphql-passport";
-
-import mergedResolvers from "./resolvers/index.js";
-import mergedTypeDefs from "./typeDefs/index.js";
-
 import { connectDB } from "./db/connectDB.js";
 import { configurePassport } from "./passport/passport.config.js";
+import mergedResolvers from "./resolvers/index.js";
+import mergedTypeDefs from "./typeDefs/index.js";
 
 dotenv.config();
 configurePassport();
 const app = express();
+const __dirname = path.resolve();
 const httpServer = http.createServer(app);
 
 const MongoDBStore = connectMongo(session);
@@ -67,6 +66,12 @@ app.use(
     context: async ({ req, res }) => buildContext({ req, res }),
   })
 );
+
+app.use(express.static(path.join(__dirname, "frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/dist", "index.html"));
+});
 
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
 await connectDB();
