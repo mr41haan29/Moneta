@@ -1,7 +1,7 @@
 import express from "express";
 import http from "http";
 import cors from "cors";
-import path from "path";
+import path, { join } from "path";
 import dotenv from "dotenv";
 import passport from "passport";
 import session from "express-session";
@@ -15,11 +15,16 @@ import { connectDB } from "./db/connectDB.js";
 import { configurePassport } from "./passport/passport.config.js";
 import mergedResolvers from "./resolvers/index.js";
 import mergedTypeDefs from "./typeDefs/index.js";
+import job from "./cron.js";
 
 dotenv.config();
 configurePassport();
-const app = express();
+
+job.start();
+
 const __dirname = path.resolve();
+const app = express();
+
 const httpServer = http.createServer(app);
 
 const MongoDBStore = connectMongo(session);
