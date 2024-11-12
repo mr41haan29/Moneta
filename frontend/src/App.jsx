@@ -16,9 +16,9 @@ function App() {
   if (loading) return null;
   // const authUser = true;
 
-  console.log("loading: ", loading);
-  console.log("auth user resposnse: ", data);
-  console.log("error: ", error);
+  // console.log("loading: ", loading);
+  // console.log("auth user resposnse: ", data);
+  // console.log("error: ", error);
 
   return (
     <>

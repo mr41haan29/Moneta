@@ -34,8 +34,10 @@ const transactionResolver = {
   //TODO: add category statistics query
 
   Mutation: {
-    createTransaction: async (_, { input }) => {
+    createTransaction: async (_, { input }, context) => {
       try {
+        const user = await context.getUser();
+
         const { description, paymentType, category, amount, date, location } =
           input;
 
@@ -80,11 +82,8 @@ const transactionResolver = {
       }
     },
 
-    deleteTransaction: async (_, { input }) => {
+    deleteTransaction: async (_, { transactionId }) => {
       try {
-        const { transactionId } = input;
-        if (!transactionId) throw new Error("Transaction ID is required");
-
         const deletedTransaction = await Transaction.findByIdAndDelete(
           transactionId
         );
