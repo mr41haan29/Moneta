@@ -9,13 +9,14 @@ const transactionTypeDef = `#graphql
 		amount: Float!
 		location: String
 		date: String!
+		user: User!
 	}
 
 	#queries (GET) for users and what to expect in the response (after the :)
 	type Query{
 		transactions: [Transaction!]
 		transaction(transactionId: ID!): Transaction
-		#TODO: add category statistics query
+		categoryStatistics: [CategoryStatistics!]
 	}
 
 	#mutations (POST, PATCH, DELETE) for users and what to expect in the response (after the :)
@@ -23,6 +24,11 @@ const transactionTypeDef = `#graphql
 		createTransaction(input: CreateTransactionInput!): Transaction!
 		updateTransaction(input: UpdateTransactionInput!): Transaction!
 		deleteTransaction(transactionId: ID!): Transaction!
+	}
+
+	type CategoryStatistics{
+		category: String!
+		totalAmount: Float!
 	}
 
 	input CreateTransactionInput{

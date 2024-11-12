@@ -1,13 +1,14 @@
-import { FaLocationDot } from "react-icons/fa6";
-import { BsCardText } from "react-icons/bs";
-import { MdOutlinePayments } from "react-icons/md";
-import { FaSackDollar } from "react-icons/fa6";
-import { FaTrash } from "react-icons/fa";
-import { HiPencilAlt } from "react-icons/hi";
-import { Link } from "react-router-dom";
-import { formatDate } from "../utils/formatDate.js";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
+import { BsCardText } from "react-icons/bs";
+import { HiPencilAlt } from "react-icons/hi";
 import { useMutation } from "@apollo/client";
+import { FaSackDollar } from "react-icons/fa6";
+import { FaLocationDot } from "react-icons/fa6";
+import { MdOutlinePayments } from "react-icons/md";
+
+import { formatDate } from "../utils/formatDate.js";
 import { DELETE_TRANSACTION } from "../graphql/mutations/transaction.mutation.js";
 
 const categoryColorMap = {
@@ -16,7 +17,7 @@ const categoryColorMap = {
   investment: "from-blue-700 to-blue-400",
 };
 
-const Card = ({ transaction }) => {
+const Card = ({ transaction, authUser }) => {
   let { category, amount, location, date, paymentType, description } =
     transaction;
   const cardClass = categoryColorMap[category];
@@ -27,7 +28,7 @@ const Card = ({ transaction }) => {
   const formattedDate = formatDate(date);
 
   const [deleteTransaction, { loading }] = useMutation(DELETE_TRANSACTION, {
-    refetchQueries: ["GetTransactions"],
+    refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
   });
 
   async function handleDelete() {
@@ -78,7 +79,7 @@ const Card = ({ transaction }) => {
         <div className="flex justify-between items-center">
           <p className="text-xs text-black font-bold">{formattedDate}</p>
           <img
-            src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+            src={authUser.profilePicture}
             className="h-8 w-8 border rounded-full"
             alt=""
           />

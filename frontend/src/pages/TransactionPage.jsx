@@ -1,12 +1,11 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
 
 import { GET_TRANSACTION } from "../graphql/queries/transaction.query";
 import { UPDATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
 import TransactionFormSkeleton from "../components/skeletons/TransactionFormSkeleton.jsx";
-import { formatDate } from "../utils/formatDate";
 
 const TransactionPage = () => {
   const { id } = useParams();
@@ -16,8 +15,10 @@ const TransactionPage = () => {
 
   console.log("transaction data", data);
 
-  const [updateTransaction, { loading: loadingUpdate }] =
-    useMutation(UPDATE_TRANSACTION);
+  const [updateTransaction, { loading: loadingUpdate }] = useMutation(
+    UPDATE_TRANSACTION,
+    { refetchQueries: ["GetTransactions", "GetTransactionStatistics"] }
+  );
 
   const [formData, setFormData] = useState({
     description: data?.transaction?.description || "",

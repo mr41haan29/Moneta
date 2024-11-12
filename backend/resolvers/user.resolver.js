@@ -1,5 +1,7 @@
-import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+
+import User from "../models/user.model.js";
+import Transaction from "../models/transaction.model.js";
 
 const userResolver = {
   //GET requests
@@ -106,7 +108,17 @@ const userResolver = {
     },
   },
 
-  //TODO: add user/transaction relation
+  User: {
+    transactions: async (parent) => {
+      try {
+        const transactions = await Transaction.find({ userId: parent._id });
+        return transactions;
+      } catch (error) {
+        console.log("error in user.transaction resolver", err);
+        throw new Error(error.message);
+      }
+    },
+  },
 };
 
 export default userResolver;

@@ -14,13 +14,13 @@ const client = new ApolloClient({
 });
 
 createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <GridBackground>
-        <ApolloProvider client={client}>
-          <App />
-        </ApolloProvider>
-      </GridBackground>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <GridBackground>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </GridBackground>
+  </BrowserRouter>
+  // </React.StrictMode>
 );

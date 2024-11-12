@@ -1,13 +1,14 @@
-import { useMutation } from "@apollo/client";
-import { CREATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
 import toast from "react-hot-toast";
+import { useMutation } from "@apollo/client";
+
+import { CREATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
 
 const TransactionForm = () => {
   //TODO: when relationships are added, change refetch query
   const [createTransaction, { loading, error }] = useMutation(
     CREATE_TRANSACTION,
     {
-      refetchQueries: ["GetTransactions"],
+      refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
     }
   );
 

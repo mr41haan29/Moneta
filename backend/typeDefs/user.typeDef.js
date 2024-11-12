@@ -8,6 +8,7 @@ const userTypeDef = `#graphql
 		password: String!
 		profilePicture: String
 		gender: String!
+		transactions: [Transaction!]
 	}
 
 	#queries (GET) for users and what to expect in the response (after the :)
