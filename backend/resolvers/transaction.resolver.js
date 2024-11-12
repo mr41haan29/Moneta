@@ -32,8 +32,7 @@ const transactionResolver = {
     },
 
     categoryStatistics: async (_, __, context) => {
-      if (!context.getUser())
-        throw new Error("Unauthorized category statistics");
+      if (!context.getUser()) throw new Error("Unauthorized");
 
       const userId = context.getUser()._id;
       const transactions = await Transaction.find({ userId: userId });
