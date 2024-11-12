@@ -3,7 +3,10 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
-import { GET_TRANSACTION } from "../graphql/queries/transaction.query";
+import {
+  GET_TRANSACTION,
+  GET_TRANSACTION_STATISTICS,
+} from "../graphql/queries/transaction.query";
 import { UPDATE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
 import TransactionFormSkeleton from "../components/skeletons/TransactionFormSkeleton.jsx";
 
@@ -17,7 +20,7 @@ const TransactionPage = () => {
 
   const [updateTransaction, { loading: loadingUpdate }] = useMutation(
     UPDATE_TRANSACTION,
-    { refetchQueries: ["GetTransactions", "GetTransactionStatistics"] }
+    { refetchQueries: [{ query: GET_TRANSACTION_STATISTICS }] }
   );
 
   const [formData, setFormData] = useState({
